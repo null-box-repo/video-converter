@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Video Converter</title>
+  <script>
+    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="toolbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+        <line x1="7" y1="2" x2="7" y2="22"></line>
+        <line x1="17" y1="2" x2="17" y2="22"></line>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <line x1="2" y1="7" x2="7" y2="7"></line>
+        <line x1="2" y1="17" x2="7" y2="17"></line>
+        <line x1="17" y1="17" x2="22" y2="17"></line>
+        <line x1="17" y1="7" x2="22" y2="7"></line>
+      </svg>
+      <span class="title">Video Converter</span>
+    </div>
+    <button id="themeToggle" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">
+      <svg class="icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+      </svg>
+      <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </header>
+
+  <main class="app">
+    <section class="card dropzone" id="dropzone">
+      <input type="file" id="fileInput" hidden>
+      <div class="drop-inner">
+        <svg class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        <p class="drop-text"><button class="link" id="browseBtn">pick a video</button></p>
+        <p class="hint">MP4, MKV, MOV, AVI, FLV, WEBM, GIF, etc.</p>
+      </div>
+    </section>
+
+    <section class="card preview-wrap" id="previewWrap" hidden>
+      <video id="preview" controls></video>
+      <div class="file-meta">
+        <span id="fileName"></span>
+        <span id="fileSize"></span>
+      </div>
+    </section>
+
+    <section class="card" id="formatsCard" hidden>
+      <h2>Output format</h2>
+      <input type="search" id="formatSearch" placeholder="Search formats..." autocomplete="off">
+      <div id="formatList"></div>
+    </section>
+
+    <section class="card" id="saveCard" hidden>
+      <h2>Save location</h2>
+      <div class="save-path">
+        <input type="text" id="saveDir" value="/sdcard/Download" autocomplete="off">
+      </div>
+    </section>
+
+    <button class="convert" id="convertBtn" disabled>
+      <span class="btn-label">Convert</span>
+      <span class="spinner" hidden></span>
+    </button>
+
+    <section class="card" id="resultCard" hidden>
+      <h2>Result</h2>
+      <div id="resultBox"></div>
+      <button class="save-btn" id="saveBtn" hidden>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span id="saveBtnLabel">Save</span>
+      </button>
+      <p class="save-status" id="saveStatus" hidden></p>
+    </section>
+
+    <p class="error" id="error" hidden></p>
+  </main>
+
+  <div class="modal-overlay" id="refreshModal" hidden>
+    <div class="modal-card">
+      <svg class="modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="23 4 23 10 17 10"></polyline>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+      </svg>
+      <p class="modal-text">هل متأكد تبي تسوي refresh؟<br><span class="modal-hint">يوجد عملية تحويل قيد العمل</span></p>
+      <div class="modal-actions">
+        <button class="modal-btn modal-cancel" id="modalCancel">الغاء</button>
+        <button class="modal-btn modal-refresh" id="modalRefresh">Refresh</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

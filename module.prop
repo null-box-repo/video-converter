@@ -1,0 +1,10 @@
+id=video-converter
+name=Video Converter
+icon=icon.jpg
+description=A tool for converting video and audio formats, supporting multiple formats via FFmpeg.
+author=YasserNull
+version=v1.0.0
+versionCode=1
+repository=https://github.com/null-box-repo/video-converter
+install=setup.sh
+permission=default
